@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - C:/dev/pgdata:/postgresql/data
+    environment:
+      PGDATA: /postgresql/data
+      POSTGRES_PASSWORD: postgres
+  pg-admin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - 5050:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mail.ru
+      PGADMIN_DEFAULT_PASSWORD: admin
