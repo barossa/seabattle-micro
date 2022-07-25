@@ -5,7 +5,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - C:/dev/pgdata:/postgresql/data
+      - C:/dev/containers-data/pgdata:/postgresql/data
     environment:
       PGDATA: /postgresql/data
       POSTGRES_PASSWORD: postgres
@@ -17,3 +17,29 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@mail.ru
       PGADMIN_DEFAULT_PASSWORD: admin
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - 2181:2181
+    volumes:
+      - ./zoo/data:/var/lib/zookeeper/data
+      - ./zoo/log:/var/lib/zookeeper/log
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+  kafka:
+      image: confluentinc/cp-kafka:latest
+      ports:
+        - "9092:9092"
+      volumes:
+        - ./kafka/data:/var/lib/kafka/data
+      depends_on:
+        - zookeeper
+      extra_hosts:
+        - moby:127.0.0.1
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_DEFAULT_REPLICATION_FACTOR: 1

@@ -10,18 +10,32 @@
     <properties>
         <java.version>18</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
-        <spring.boot.version>2.5.7</spring.boot.version>
+        <spring.boot.version>2.7.2</spring.boot.version>
+        <avro.serializer.version>7.2.1</avro.serializer.version>
     </properties>
 
     <modules>
+        <module>api-gateway</module>
         <module>users</module>
         <module>game-data</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>${avro.serializer.version}</version>
         </dependency>
     </dependencies>
 

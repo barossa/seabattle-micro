@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue
-    private long id;
     private String login;
+
+    private String currentGame;
     private LocalDateTime createdAt;
 
     @PrePersist
