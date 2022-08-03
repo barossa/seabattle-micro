@@ -1,8 +1,11 @@
 package by.bsuir.seabattle.service;
 
-import by.bsuir.seabattle.dto.Game;
-import by.bsuir.seabattle.dto.GameCreationRequest;
+import by.bsuir.seabattle.avro.Game;
+
+import java.util.List;
 
 public interface GameService {
-    Game createGame(GameCreationRequest request);
+    Game createGame(String login);
+
+    List<Game> findAllGames();
 }

@@ -1,7 +1,8 @@
 package by.bsuir.seabattle.service;
 
-import by.bsuir.seabattle.dto.Game;
-import by.bsuir.seabattle.dto.GameCreationRequest;
+import by.bsuir.seabattle.avro.ActivePlayerGame;
+import by.bsuir.seabattle.avro.Game;
+import com.google.common.collect.Streams;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
@@ -11,12 +12,14 @@ import org.springframework.cloud.stream.binder.kafka.streams.InteractiveQuerySer
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import static by.bsuir.seabattle.config.KafkaStoreConfig.ACTIVE_GAMES_STORE;
-import static by.bsuir.seabattle.config.KafkaStoreConfig.GAMES_STORE;
-import static by.bsuir.seabattle.dto.Game.Status.ENDED;
-import static by.bsuir.seabattle.dto.Game.Status.JOINING;
+import static by.bsuir.seabattle.avro.GameStatus.ENDED;
+import static by.bsuir.seabattle.avro.GameStatus.JOINING;
+import static by.bsuir.seabattle.config.StreamsConfig.ACTIVE_GAMES_STORE;
+import static by.bsuir.seabattle.config.StreamsConfig.GAMES_STORE;
 
 @Slf4j
 @Service
@@ -34,26 +37,34 @@ public class GameServiceImpl implements GameService {
     private final InteractiveQueryService queryService;
 
     @Override
-    public Game createGame(GameCreationRequest request) {
-        String login = request.login();
-        Game.GameBuilder builder = Game.builder().id(UUID.randomUUID().toString())
-                .players(Collections.singleton(login));
+    public Game createGame(String login) {
+        Game.Builder builder = Game.newBuilder().setId(UUID.randomUUID().toString())
+                .setSteps(Collections.emptyList())
+                .setPlayers(Collections.singletonList(login));
 
-        ReadOnlyKeyValueStore<String, String> activeGamesStore = queryService.getQueryableStore(ACTIVE_GAMES_STORE, QueryableStoreTypes.keyValueStore());
-        String gameId = activeGamesStore.get(login);
+        ReadOnlyKeyValueStore<String, ActivePlayerGame> activeGamesStore = queryService.getQueryableStore(ACTIVE_GAMES_STORE, QueryableStoreTypes.keyValueStore());
+        ActivePlayerGame activeGame = activeGamesStore.get(login);
 
-        if (!validateGameId(gameId)) {
-            builder.status(JOINING);
+        if (!validateGame(activeGame)) {
+            builder.setStatus(JOINING);
             log.info("Created new game. Player: {} ", login);
         } else {
-            builder.status(ENDED);
-            log.info("Player {} has running other game #{}", login, gameId);
+            builder.setStatus(ENDED);
+            log.info("Player {} has running other game #{}", login, activeGame.getId());
         }
 
         return builder.build();
     }
 
-    private boolean validateGameId(String gameId) {
+    @Override
+    public List<Game> findAllGames() {
+        ReadOnlyKeyValueStore<String, Game> gamesStore = queryService.getQueryableStore(GAMES_STORE, QueryableStoreTypes.keyValueStore());
+        return Streams.stream(gamesStore.all()).map((e) -> e.value).collect(Collectors.toList());
+
+    }
+
+    private boolean validateGame(ActivePlayerGame game) {
+        String gameId = game == null ? null : game.getId();
         return gameId != null && !gameId.isBlank() && !gameId.equalsIgnoreCase(NULL);
     }
 }

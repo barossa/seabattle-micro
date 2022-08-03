@@ -1,0 +1,52 @@
+{
+  "type": "record",
+  "name": "Game",
+  "namespace": "by.bsuir.seabattle.avro",
+  "fields": [
+    {
+      "name": "going",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "players",
+      "type": {
+        "type": "array",
+        "items": "string",
+        "java-class": "java.util.Set"
+      }
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "GameStatus",
+        "namespace": "by.bsuir.seabattle.avro",
+        "symbols": [
+          "CREATING",
+          "JOINING",
+          "RUNNING",
+          "ENDED"
+        ]
+      }
+    },
+    {
+      "name": "steps",
+      "type": {
+        "type": "array",
+        "items": "by.bsuir.seabattle.avro.Step",
+        "java-class": "java.util.Set"
+      }
+    },
+    {
+      "name": "winner",
+      "type": "string",
+      "default": ""
+    }
+  ]
+}

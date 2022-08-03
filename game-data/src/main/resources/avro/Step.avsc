@@ -1,0 +1,27 @@
+{
+  "type": "record",
+  "name": "Step",
+  "namespace": "by.bsuir.seabattle.avro",
+  "fields": [
+    {
+      "name": "createdAt",
+      "type": "long"
+    },
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "player",
+      "type": "string"
+    },
+    {
+      "name": "x",
+      "type": "int"
+    },
+    {
+      "name": "y",
+      "type": "int"
+    }
+  ]
+}

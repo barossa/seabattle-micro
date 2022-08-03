@@ -1,14 +1,12 @@
 package by.bsuir.seabattle;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.kafka.support.serializer.JsonSerde;
+import org.springframework.cloud.schema.registry.client.EnableSchemaRegistryClient;
 
 @SpringBootApplication
-@Slf4j
+@EnableSchemaRegistryClient
 public class GameDataApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(GameDataApplication.class, args);
     }

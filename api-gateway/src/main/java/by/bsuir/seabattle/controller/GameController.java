@@ -1,6 +1,6 @@
 package by.bsuir.seabattle.controller;
 
-import by.bsuir.seabattle.dto.GameCreationRequest;
+import by.bsuir.seabattle.avro.GameCreationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ public class GameController {
 
     @PostMapping
     void createGame(@RequestBody GameCreationRequest request) {
-        kafkaTemplate.send("game-creation-requests", request.login(), request);
+        kafkaTemplate.send("game-creation-requests", request.getLogin(), request);
     }
 
 }

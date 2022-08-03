@@ -11,7 +11,11 @@
         <java.version>18</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring.boot.version>2.7.2</spring.boot.version>
-        <avro.serializer.version>7.2.1</avro.serializer.version>
+        <avro.version>7.2.1</avro.version>
+        <avro.plugin.version>1.11.0</avro.plugin.version>
+        <spring.cloud.stream.schema.version>2.2.1.RELEASE</spring.cloud.stream.schema.version>
+        <schema-registry.server>http://localhost:8081</schema-registry.server>
+        <maven.compiler.version>3.10.1</maven.compiler.version>
     </properties>
 
     <modules>
@@ -27,6 +31,13 @@
         </repository>
     </repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -35,7 +46,7 @@
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
-            <version>${avro.serializer.version}</version>
+            <version>${avro.version}</version>
         </dependency>
     </dependencies>
 
@@ -59,10 +70,60 @@
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.avro</groupId>
+                    <artifactId>avro-maven-plugin</artifactId>
+                    <version>${avro.plugin.version}</version>
+                    <configuration>
+                        <sourceDirectory>${project.build.directory}/classes/avro</sourceDirectory>
+                        <fieldVisibility>PRIVATE</fieldVisibility>
+                        <enableDecimalLogicalType>true</enableDecimalLogicalType>
+                        <stringType>String</stringType>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>schema</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>kafka-schema-registry-maven-plugin</artifactId>
+                    <version>${avro.version}</version>
+                    <configuration>
+                        <schemaRegistryUrls>
+                            <schemaRegistryUrl>${schema-registry.server}</schemaRegistryUrl>
+                        </schemaRegistryUrls>
+                        <outputDirectory>${project.build.directory}/classes/avro/remote</outputDirectory>
+                        <compatibilityLevels/>
+                        <previousSchemaPaths/>
+                        <schemas/>
+                        <subjectPatterns>
+                            <pattern>.*</pattern>
+                        </subjectPatterns>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>download</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -75,6 +136,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
                 <configuration>
                     <source>18</source>
                     <target>18</target>

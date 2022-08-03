@@ -1,0 +1,12 @@
+{
+  "type": "record",
+  "name": "ActivePlayerGame",
+  "namespace": "by.bsuir.seabattle.avro",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "default": ""
+    }
+  ]
+}
