@@ -1,0 +1,17 @@
+{
+  "type": "record",
+  "name": "GameJoinRequest",
+  "namespace": "by.bsuir.seabattle.avro",
+  "fields": [
+    {
+      "name": "login",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "game",
+      "type": "string",
+      "default": ""
+    }
+  ]
+}

@@ -27,8 +27,10 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-  kafka:
+  kafka-1:
     image: confluentinc/cp-kafka:latest
+    mem_limit: 1024m
+    container_name: kafka-1
     ports:
       - "9092:9092"
     volumes:
@@ -40,7 +42,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:9092, INTERNAL://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:9092, INTERNAL://kafka-1:9082
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -51,9 +53,13 @@ services:
       ports:
         - "8081:8081"
       environment:
-        SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9093
+        SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka-1:9082
         SCHEMA_REGISTRY_HOST_NAME: localhost
         SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
       depends_on:
         - zookeeper
-        - kafka
+        - kafka-1
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411

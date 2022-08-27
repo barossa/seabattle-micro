@@ -1,6 +1,7 @@
 **/target/**
 kafka/**
 zoo/**
+kafka-streams/**
 ### IntelliJ IDEA ###
 .idea
 *.iws

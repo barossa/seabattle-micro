@@ -9,6 +9,7 @@
     </parent>
     <artifactId>game-data</artifactId>
     <name>game-data</name>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -56,10 +57,17 @@
                     </imports>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>io.confluent</groupId>
                 <artifactId>kafka-schema-registry-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <finalName>${project.artifactId}</finalName>
+                    <mainClass>by.bsuir.seabattle.GameDataApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

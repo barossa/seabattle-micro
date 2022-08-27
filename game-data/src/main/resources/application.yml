@@ -12,6 +12,7 @@ spring:
             value:
               default:
                 type: java.lang.String
+        state.dir: ./kafka-streams
     consumer:
       group-id: game-data
 
@@ -20,7 +21,7 @@ spring:
       kafka:
         streams:
           binder:
-            brokers: localhost:9092
+            brokers: localhost:9092,localhost:9093
             application-id: game-data
             configuration:
               default:
@@ -37,6 +38,8 @@ spring:
           destination: game-creation-requests
         processGameCreationRequests-out-0:
           destination: games-topic
+      instance-count: 2
+      instance-index: 0
 
     function:
       definition: processGameCreationRequests;

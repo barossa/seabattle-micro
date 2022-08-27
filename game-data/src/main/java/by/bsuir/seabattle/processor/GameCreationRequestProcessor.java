@@ -26,7 +26,9 @@ public class GameCreationRequestProcessor {
     @Bean
     public Function<KStream<String, GameCreationRequest>, KStream<String, Game>> processGameCreationRequests() {
         return (requests) -> {
-            KStream<String, Game> games = requests.mapValues(r -> gameService.createGame(r.getLogin()))
+            KStream<String, Game> games = requests
+                    .peek((k, v) -> System.out.println("Processing GCR: " + v.getLogin()))
+                    .mapValues(r -> gameService.createGame(r.getLogin()))
                     .map((k, v) -> new KeyValue<>(v.getId(), v))
                     .filter((k, g) -> g.getStatus().equals(JOINING));
 
