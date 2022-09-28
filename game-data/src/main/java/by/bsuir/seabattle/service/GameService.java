@@ -9,4 +9,8 @@ public interface GameService {
     Game createGame(String login);
 
     List<Game> findAllGames(GameSearchFilter filter);
+
+    Game leftGame(String player, String game);
+
+    Game joinGame(String player, String game);
 }

@@ -33,10 +33,10 @@ spring:
               schema.registry.url: http://localhost:8081
               dynamicSchemaGenerationEnabled: false
       bindings:
-        processGameCreationRequests-in-0:
+        processGameEvents-in-0:
           destination: games-events
           group: game-creation-request-processor
-        processGameCreationRequests-out-0:
+        processGameEvents-out-0:
           destination: games-topic
         processViewRequests-in-0:
           destination: games-events
@@ -47,6 +47,9 @@ spring:
       instance-index: 0
 
     function:
-      definition: processGameCreationRequests;processViewRequests;
+      definition: processGameEvents;processViewRequests;
   main:
     allow-bean-definition-overriding: true
+logging:
+  level:
+    by.bsuir.seabattle.*: INFO

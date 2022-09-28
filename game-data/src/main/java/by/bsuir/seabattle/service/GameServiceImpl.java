@@ -8,7 +8,6 @@ import com.google.common.collect.Streams;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -26,7 +25,7 @@ import static by.bsuir.seabattle.config.StreamsConfig.GAMES_STORE;
 @RequiredArgsConstructor
 public class GameServiceImpl implements GameService {
 
-    private static final String NULL = "null";
+    private static final String NULL_VALUE = "null";
     private final StoreService storeService;
 
     @Override
@@ -38,7 +37,7 @@ public class GameServiceImpl implements GameService {
         ReadOnlyKeyValueStore<String, ActivePlayerGame> activeGamesStore = storeService.getReadOnlyKeyValueStore(ACTIVE_GAMES_STORE);
         ActivePlayerGame activeGame = activeGamesStore.get(login);
 
-        if (!validateGame(activeGame)) {
+        if (isGameNotExist(activeGame)) {
             builder.setStatus(JOINING);
             log.info("Created new game. Player: {} ", login);
         } else {
@@ -58,9 +57,33 @@ public class GameServiceImpl implements GameService {
                 .collect(Collectors.toList());
     }
 
-    private boolean validateGame(ActivePlayerGame game) {
+    @Override
+    public Game leftGame(String player, String gameId) {
+        log.info("Player {} left game #{}", player, gameId);
+        ReadOnlyKeyValueStore<String, Game> gamesStore = storeService.getReadOnlyKeyValueStore(GAMES_STORE);
+        Game game = gamesStore.get(gameId);
+        game.setStatus(ENDED);
+        return game;
+    }
+
+    @Override
+    public Game joinGame(String player, String gameId) {
+        ReadOnlyKeyValueStore<String, ActivePlayerGame> activeGamesStore = storeService.getReadOnlyKeyValueStore(ACTIVE_GAMES_STORE);
+        ReadOnlyKeyValueStore<String, Game> gamesStore = storeService.getReadOnlyKeyValueStore(GAMES_STORE);
+        ActivePlayerGame activeGame = activeGamesStore.get(player);
+        Game game = gamesStore.get(gameId);
+        if (isGameNotExist(activeGame)) {
+            game.getPlayers().add(player);
+            log.info("Player {} joined game #{}", player, game);
+        } else {
+            log.info("Player {} has running other game #{}", player, gameId);
+        }
+        return game;
+    }
+
+    private boolean isGameNotExist(ActivePlayerGame game) {
         String gameId = game == null ? null : game.getId();
-        return gameId != null && !gameId.isBlank() && !gameId.equalsIgnoreCase(NULL);
+        return gameId == null || gameId.isBlank() || gameId.equalsIgnoreCase(NULL_VALUE);
     }
 
     private GameStatus parseStatus(GameSearchFilter filter) {
