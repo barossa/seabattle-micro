@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "ActivePlayerGame",
-  "namespace": "by.bsuir.seabattle.avro",
+  "namespace": "by.bsuir.seabattle.dto",
   "fields": [
     {
       "name": "id",

@@ -10,7 +10,7 @@
     <properties>
         <java.version>18</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
-        <spring.boot.version>2.7.2</spring.boot.version>
+        <spring.boot.version>2.7.4</spring.boot.version>
         <avro.version>7.2.1</avro.version>
         <avro.plugin.version>1.11.0</avro.plugin.version>
         <spring.cloud.stream.schema.version>2.2.1.RELEASE</spring.cloud.stream.schema.version>
@@ -22,6 +22,7 @@
         <module>api-gateway</module>
         <module>users</module>
         <module>game-data</module>
+        <module>avro-schemas</module>
     </modules>
 
     <repositories>
@@ -82,6 +83,11 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.avro</groupId>
                     <artifactId>avro-maven-plugin</artifactId>
                     <version>${avro.plugin.version}</version>
@@ -90,6 +96,10 @@
                         <fieldVisibility>PRIVATE</fieldVisibility>
                         <enableDecimalLogicalType>true</enableDecimalLogicalType>
                         <stringType>String</stringType>
+                        <imports>
+                            <import>${project.build.directory}/classes/avro/Step.avsc</import>
+                            <import>${project.build.directory}/classes/avro/Game.avsc</import>
+                        </imports>
                     </configuration>
                     <executions>
                         <execution>
@@ -108,13 +118,11 @@
                         <schemaRegistryUrls>
                             <schemaRegistryUrl>${schema-registry.server}</schemaRegistryUrl>
                         </schemaRegistryUrls>
-                        <outputDirectory>${project.build.directory}/classes/avro/remote</outputDirectory>
-                        <compatibilityLevels/>
-                        <previousSchemaPaths/>
-                        <schemas/>
+                        <outputDirectory>${project.build.directory}/classes/avro</outputDirectory>
                         <subjectPatterns>
-                            <pattern>.*</pattern>
+                            <pattern>^[A-Za-z]+\.*</pattern>
                         </subjectPatterns>
+                        <subjects/>
                     </configuration>
                 </plugin>
             </plugins>

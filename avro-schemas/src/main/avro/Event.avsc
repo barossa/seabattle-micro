@@ -1,0 +1,27 @@
+{
+  "type": "record",
+  "name": "Event",
+  "namespace": "by.bsuir.seabattle.event",
+  "fields": [
+    {
+      "name": "type",
+      "type": "string"
+    },
+    {
+      "name": "payload",
+      "type": [
+        {
+          "type": "map",
+          "values": [
+            "string",
+            {
+              "type": "array",
+              "items": "by.bsuir.seabattle.dto.Game"
+            }
+          ]
+        },
+        "string"
+      ]
+    }
+  ]
+}

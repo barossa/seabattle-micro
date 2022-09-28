@@ -5,4 +5,5 @@ public final class Topics {
     }
 
     public static final String GAMES_TOPIC = "games-topic";
+    public static final String GAMES_EVENTS = "games-events";
 }

@@ -1,0 +1,11 @@
+{
+  "type": "enum",
+  "name": "GameEvents",
+  "namespace": "by.bsuir.seabattle.event",
+  "symbols": [
+    "CREATE_GAME",
+    "JOIN_GAME",
+    "LEFT_GAME",
+    "FIND_GAMES"
+  ]
+}

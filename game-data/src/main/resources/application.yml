@@ -22,7 +22,6 @@ spring:
         streams:
           binder:
             brokers: localhost:9092,localhost:9093
-            application-id: game-data
             configuration:
               default:
                 key:
@@ -35,13 +34,19 @@ spring:
               dynamicSchemaGenerationEnabled: false
       bindings:
         processGameCreationRequests-in-0:
-          destination: game-creation-requests
+          destination: games-events
+          group: game-creation-request-processor
         processGameCreationRequests-out-0:
           destination: games-topic
+        processViewRequests-in-0:
+          destination: games-events
+          group: view-request-processor-0
+        processViewRequests-out-0:
+          destination: user-notifications
       instance-count: 2
       instance-index: 0
 
     function:
-      definition: processGameCreationRequests;
+      definition: processGameCreationRequests;processViewRequests;
   main:
     allow-bean-definition-overriding: true

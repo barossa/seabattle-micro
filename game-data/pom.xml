@@ -54,6 +54,7 @@
                 <configuration>
                     <imports>
                         <import>${project.basedir}/src/main/resources/avro/Step.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/Game.avsc</import>
                     </imports>
                 </configuration>
             </plugin>

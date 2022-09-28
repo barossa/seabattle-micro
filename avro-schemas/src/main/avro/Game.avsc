@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "Game",
-  "namespace": "by.bsuir.seabattle.avro",
+  "namespace": "by.bsuir.seabattle.dto",
   "fields": [
     {
       "name": "going",
@@ -39,7 +39,7 @@
       "name": "steps",
       "type": {
         "type": "array",
-        "items": "by.bsuir.seabattle.avro.Step",
+        "items": "by.bsuir.seabattle.dto.Step",
         "java-class": "java.util.Set"
       }
     },

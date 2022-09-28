@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>seabattle-micro</artifactId>
+        <groupId>by.bsuir.seabattle</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>avro-schemas</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <avro.schema.path>src/main/avro</avro.schema.path>
+    </properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-schema-registry-maven-plugin</artifactId>
+                <version>${avro.version}</version>
+                <configuration>
+                    <schemaRegistryUrls>
+                        <schemaRegistryUrl>${schema-registry.server}</schemaRegistryUrl>
+                    </schemaRegistryUrls>
+                    <subjects>
+                        <Event>${avro.schema.path}/Event.avsc</Event>
+                        <GameEvents>${avro.schema.path}/GameEvents.avsc</GameEvents>
+                        <Game>${avro.schema.path}/Game.avsc</Game>
+                        <ActivePlayerGame>${avro.schema.path}/ActivePlayerGame.avsc</ActivePlayerGame>
+                        <Step>${avro.schema.path}/Step.avsc</Step>
+                    </subjects>
+                    <references>
+                        <Event>
+                            <reference>
+                                <name>by.bsuir.seabattle.dto.Game</name>
+                                <subject>Game</subject>
+                            </reference>
+                        </Event>
+                        <Game>
+                            <reference>
+                                <name>by.bsuir.seabattle.dto.Step</name>
+                                <subject>Step</subject>
+                            </reference>
+                        </Game>
+                    </references>
+                    <compatibilityLevels/>
+                    <previousSchemaPaths/>
+                    <schemas/>
+                    <outputDirectory/>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

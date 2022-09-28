@@ -1,7 +1,7 @@
 package by.bsuir.seabattle.controller.dto;
 
-import by.bsuir.seabattle.avro.Game;
-import by.bsuir.seabattle.avro.Step;
+import by.bsuir.seabattle.dto.Game;
+import by.bsuir.seabattle.dto.Step;
 
 import java.util.List;
 
