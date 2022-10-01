@@ -99,6 +99,8 @@
                         <imports>
                             <import>${project.build.directory}/classes/avro/Step.avsc</import>
                             <import>${project.build.directory}/classes/avro/Game.avsc</import>
+                            <import>${project.build.directory}/classes/avro/PlayerActionType.avsc</import>
+                            <import>${project.build.directory}/classes/avro/GameEventType.avsc</import>
                         </imports>
                     </configuration>
                     <executions>

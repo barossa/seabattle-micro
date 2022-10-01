@@ -1,11 +1,10 @@
 {
   "type": "enum",
-  "name": "GameEvents",
+  "name": "PlayerActionType",
   "namespace": "by.bsuir.seabattle.event",
   "symbols": [
     "CREATE_GAME",
     "JOIN_GAME",
-    "LEFT_GAME",
-    "FIND_GAMES"
+    "LEFT_GAME"
   ]
 }

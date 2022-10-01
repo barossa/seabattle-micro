@@ -32,22 +32,18 @@ spring:
               specific.avro.reader: true
               schema.registry.url: http://localhost:8081
               dynamicSchemaGenerationEnabled: false
+            functions:
+              processGameEvents.applicationId: game-events-processors
       bindings:
-        processGameEvents-in-0:
+        processPlayerActions-in-0:
+          destination: player-actions
+        processPlayerActions-out-0:
           destination: games-events
-          group: game-creation-request-processor
-        processGameEvents-out-0:
-          destination: games-topic
-        processViewRequests-in-0:
-          destination: games-events
-          group: view-request-processor-0
-        processViewRequests-out-0:
-          destination: user-notifications
       instance-count: 2
       instance-index: 0
 
     function:
-      definition: processGameEvents;processViewRequests;
+      definition: processGameEvents;
   main:
     allow-bean-definition-overriding: true
 logging:

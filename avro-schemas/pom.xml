@@ -30,25 +30,37 @@
                         <schemaRegistryUrl>${schema-registry.server}</schemaRegistryUrl>
                     </schemaRegistryUrls>
                     <subjects>
-                        <Event>${avro.schema.path}/Event.avsc</Event>
-                        <GameEvents>${avro.schema.path}/GameEvents.avsc</GameEvents>
                         <Game>${avro.schema.path}/Game.avsc</Game>
                         <ActivePlayerGame>${avro.schema.path}/ActivePlayerGame.avsc</ActivePlayerGame>
                         <Step>${avro.schema.path}/Step.avsc</Step>
+                        <PlayerAction>${avro.schema.path}/PlayerAction.avsc</PlayerAction>
+                        <PlayerActionType>${avro.schema.path}/PlayerActionType.avsc</PlayerActionType>
+                        <GameEvent>${avro.schema.path}/GameEvent.avsc</GameEvent>
+                        <GameEventType>${avro.schema.path}/GameEventType.avsc</GameEventType>
                     </subjects>
                     <references>
-                        <Event>
-                            <reference>
-                                <name>by.bsuir.seabattle.dto.Game</name>
-                                <subject>Game</subject>
-                            </reference>
-                        </Event>
                         <Game>
                             <reference>
                                 <name>by.bsuir.seabattle.dto.Step</name>
                                 <subject>Step</subject>
                             </reference>
                         </Game>
+                        <PlayerAction>
+                            <reference>
+                                <name>by.bsuir.seabattle.event.PlayerActionType</name>
+                                <subject>PlayerActionType</subject>
+                            </reference>
+                        </PlayerAction>
+                        <GameEvent>
+                            <reference>
+                                <name>by.bsuir.seabattle.event.GameEventType</name>
+                                <subject>GameEventType</subject>
+                            </reference>
+                            <reference>
+                                <name>by.bsuir.seabattle.dto.Game</name>
+                                <subject>Game</subject>
+                            </reference>
+                        </GameEvent>
                     </references>
                     <compatibilityLevels/>
                     <previousSchemaPaths/>

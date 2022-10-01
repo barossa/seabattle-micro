@@ -1,0 +1,18 @@
+{
+  "type": "record",
+  "name": "PlayerAction",
+  "namespace": "by.bsuir.seabattle.event",
+  "fields": [
+    {
+      "name": "type",
+      "type": "by.bsuir.seabattle.event.PlayerActionType"
+    },
+    {
+      "name": "payload",
+      "type": {
+        "type": "map",
+        "values": "string"
+      }
+    }
+  ]
+}

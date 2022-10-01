@@ -1,16 +1,14 @@
 package by.bsuir.seabattle.service;
 
-import by.bsuir.seabattle.controller.dto.GameSearchFilter;
 import by.bsuir.seabattle.dto.Game;
+import by.bsuir.seabattle.dto.GameSearchFilter;
 
 import java.util.List;
 
 public interface GameService {
-    Game createGame(String login);
+    Game find(String id);
 
-    List<Game> findAllGames(GameSearchFilter filter);
+    boolean isPlayerInGame(String player);
 
-    Game leftGame(String player, String game);
-
-    Game joinGame(String player, String game);
+    List<Game> findAll(GameSearchFilter filter);
 }

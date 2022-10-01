@@ -1,0 +1,12 @@
+{
+  "type": "enum",
+  "name": "GameEventType",
+  "namespace": "by.bsuir.seabattle.event",
+  "symbols": [
+    "GAME_CREATED",
+    "PLAYER_LEFT",
+    "PLAYER_JOINED",
+    "GAME_STARTED",
+    "GAME_FINISHED"
+  ]
+}
