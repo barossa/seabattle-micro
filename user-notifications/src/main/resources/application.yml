@@ -1,5 +1,3 @@
-server:
-  port: 8082
 spring:
   kafka:
     streams:
@@ -7,7 +5,7 @@ spring:
       properties:
         state.dir: ./kafka-streams
     consumer:
-      group-id: game-data
+      group-id: user-notifications
 
   cloud:
     stream:
@@ -16,32 +14,25 @@ spring:
           binder:
             brokers: localhost:9092
             configuration:
-              application.server: localhost:8082
               default:
                 key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
                 value.serde: io.confluent.kafka.streams.serdes.avro.GenericAvroSerde
               specific.avro.reader: true
-              schema:
-                registry:
-                  url: http://localhost:8081
+              schema.registry.url: http://localhost:8081
               dynamicSchemaGenerationEnabled: false
             functions:
-              processPlayerActions.applicationId: player-actions-processors
-              processViewRequests.applicationId: view-request-processor-0
+              processGameEvents:
+                applicationId: game-events-processors
       bindings:
-        processPlayerActions-in-0:
-          destination: player-actions
-        processPlayerActions-out-0:
+        processGameEvents-in-0:
           destination: game-events
-        processViewRequests-in-0:
-          destination: player-actions
-        processViewRequests-out-0:
+        processGameEvents-out-0:
           destination: player-events
       instance-count: 2
       instance-index: 0
 
     function:
-      definition: processPlayerActions;processViewRequests;
+      definition: processGameEvents;
 logging:
   level:
     by.bsuir.seabattle.*: INFO

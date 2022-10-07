@@ -10,11 +10,4 @@ public class ApiGatewayApplication {
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
 
-    /*@Bean
-    CommandLineRunner runner() {
-        return args -> {
-            System.out.printf("Schema:::\n\n\n%s\nSchema:::\n\n\n", ReflectData.get().getSchema(GameEvent.class).toString());
-        };
-    }*/
-
 }

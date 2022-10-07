@@ -1,4 +1,7 @@
-package by.bsuir.seabattle.dto;
+package by.bsuir.seabattle.controller.dto;
+
+import by.bsuir.seabattle.dto.Game;
+import by.bsuir.seabattle.dto.Step;
 
 import java.util.List;
 
@@ -12,7 +15,7 @@ public final class DtoConverter {
     }
 
     public static StepDto to(Step step) {
-        return new StepDto(step.getId(), step.getPlayer(), step.getX(), step.getY(), step.getCreatedAt());
+        return new StepDto(step.getPlayer(), step.getX(), step.getY());
     }
 
 }

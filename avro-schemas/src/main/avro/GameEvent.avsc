@@ -8,12 +8,19 @@
       "type": "by.bsuir.seabattle.event.GameEventType"
     },
     {
-      "name": "payload",
-      "type": {
-        "type": "map",
-        "values": ["string",
-        "by.bsuir.seabattle.dto.Game"]
-      }
+      "name": "game",
+      "type": ["null", "by.bsuir.seabattle.dto.Game"],
+      "default": null
+    },
+    {
+      "name": "step",
+      "type": ["null", "by.bsuir.seabattle.dto.Step"],
+      "default": null
+    },
+    {
+      "name": "player",
+      "type": ["null", "string"],
+      "default": null
     }
   ]
 }

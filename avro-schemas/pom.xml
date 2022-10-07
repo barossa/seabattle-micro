@@ -37,6 +37,8 @@
                         <PlayerActionType>${avro.schema.path}/PlayerActionType.avsc</PlayerActionType>
                         <GameEvent>${avro.schema.path}/GameEvent.avsc</GameEvent>
                         <GameEventType>${avro.schema.path}/GameEventType.avsc</GameEventType>
+                        <PlayerEvent>${avro.schema.path}/PlayerEvent.avsc</PlayerEvent>
+                        <PlayerEventType>${avro.schema.path}/PlayerEventType.avsc</PlayerEventType>
                     </subjects>
                     <references>
                         <Game>
@@ -50,6 +52,10 @@
                                 <name>by.bsuir.seabattle.event.PlayerActionType</name>
                                 <subject>PlayerActionType</subject>
                             </reference>
+                            <reference>
+                                <name>by.bsuir.seabattle.dto.Step</name>
+                                <subject>Step</subject>
+                            </reference>
                         </PlayerAction>
                         <GameEvent>
                             <reference>
@@ -60,7 +66,25 @@
                                 <name>by.bsuir.seabattle.dto.Game</name>
                                 <subject>Game</subject>
                             </reference>
+                            <reference>
+                                <name>by.bsuir.seabattle.dto.Step</name>
+                                <subject>Step</subject>
+                            </reference>
                         </GameEvent>
+                        <PlayerEvent>
+                            <reference>
+                                <name>by.bsuir.seabattle.event.PlayerEventType</name>
+                                <subject>PlayerEventType</subject>
+                            </reference>
+                            <reference>
+                                <name>by.bsuir.seabattle.dto.Game</name>
+                                <subject>Game</subject>
+                            </reference>
+                            <reference>
+                                <name>by.bsuir.seabattle.dto.Step</name>
+                                <subject>Step</subject>
+                            </reference>
+                        </PlayerEvent>
                     </references>
                     <compatibilityLevels/>
                     <previousSchemaPaths/>

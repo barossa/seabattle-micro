@@ -7,13 +7,14 @@ import by.bsuir.seabattle.service.GameService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
 
 import static by.bsuir.seabattle.avro.GameStatus.ENDED;
 import static by.bsuir.seabattle.avro.GameStatus.JOINING;
 import static by.bsuir.seabattle.event.GameEventType.GAME_CREATED;
 import static by.bsuir.seabattle.event.PlayerActionType.CREATE_GAME;
-import static by.bsuir.seabattle.processor.handler.PayloadUtil.GAME_KEY;
 
 @Slf4j
 @Component
@@ -28,8 +29,7 @@ public class CreateGameHandler extends AbstractPlayerActionHandler {
 
     @Override
     public Optional<GameEvent> handle(String gameId, PlayerAction action) {
-        Map<String, String> payload = action.getPayload();
-        String player = PayloadUtil.getPlayer(payload);
+        String player = action.getPlayer();
         Game.Builder builder = Game.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setSteps(Collections.emptyList())
@@ -43,9 +43,9 @@ public class CreateGameHandler extends AbstractPlayerActionHandler {
             log.info("Player {} has running other game", player);
         }
 
-        Map<String, Object> eventPayload = new HashMap<>();
-        eventPayload.put(GAME_KEY, builder.build());
-
-        return Optional.of(new GameEvent(GAME_CREATED, eventPayload));
+        GameEvent gameEvent = new GameEvent();
+        gameEvent.setType(GAME_CREATED);
+        gameEvent.setGame(builder.build());
+        return Optional.of(gameEvent);
     }
 }

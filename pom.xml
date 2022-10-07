@@ -16,6 +16,7 @@
         <spring.cloud.stream.schema.version>2.2.1.RELEASE</spring.cloud.stream.schema.version>
         <schema-registry.server>http://localhost:8081</schema-registry.server>
         <maven.compiler.version>3.10.1</maven.compiler.version>
+        <snake.yaml.version>1.33</snake.yaml.version>
     </properties>
 
     <modules>
@@ -23,6 +24,7 @@
         <module>users</module>
         <module>game-data</module>
         <module>avro-schemas</module>
+        <module>user-notifications</module>
     </modules>
 
     <repositories>
@@ -76,6 +78,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-schema-registry-client</artifactId>
+                <version>1.1.5</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -101,6 +108,7 @@
                             <import>${project.build.directory}/classes/avro/Game.avsc</import>
                             <import>${project.build.directory}/classes/avro/PlayerActionType.avsc</import>
                             <import>${project.build.directory}/classes/avro/GameEventType.avsc</import>
+                            <import>${project.build.directory}/classes/avro/PlayerEventType.avsc</import>
                         </imports>
                     </configuration>
                     <executions>

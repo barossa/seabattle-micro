@@ -1,4 +1,4 @@
-package by.bsuir.seabattle.dto;
+package by.bsuir.seabattle.controller.dto;
 
 import java.util.List;
 

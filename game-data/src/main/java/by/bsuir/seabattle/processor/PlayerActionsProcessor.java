@@ -6,7 +6,6 @@ import by.bsuir.seabattle.event.GameEvent;
 import by.bsuir.seabattle.event.PlayerAction;
 import by.bsuir.seabattle.event.PlayerActionType;
 import by.bsuir.seabattle.processor.handler.AbstractPlayerActionHandler;
-import by.bsuir.seabattle.processor.handler.PayloadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.KeyValue;
@@ -19,8 +18,9 @@ import java.util.List;
 import java.util.function.Function;
 
 import static by.bsuir.seabattle.avro.GameStatus.ENDED;
-import static by.bsuir.seabattle.config.StreamsConfig.ACTIVE_GAMES_STORE;
-import static by.bsuir.seabattle.config.StreamsConfig.GAMES_STORE;
+import static by.bsuir.seabattle.config.Topology.ACTIVE_GAMES_STORE;
+import static by.bsuir.seabattle.config.Topology.GAMES_STORE;
+import static by.bsuir.seabattle.event.PlayerActionType.FIND_GAMES;
 
 @Slf4j
 @Configuration
@@ -33,6 +33,7 @@ public class PlayerActionsProcessor {
 
         return (actions) -> {
             KStream<String, GameEvent> processed = actions
+                    .filter((k, action) -> action.getType() != FIND_GAMES)
                     .peek((k, a) -> System.out.println("Processing player action: " + a))
                     .map((k, a) -> {
                         AbstractPlayerActionHandler handler = defineHandler(a.getType());
@@ -41,12 +42,12 @@ public class PlayerActionsProcessor {
                     .filter((k, v) -> v.isPresent())
                     .map((k, v) -> {
                         GameEvent event = v.get();
-                        Game game = PayloadUtil.getGame(event.getPayload());
+                        Game game = event.getGame();
                         return new KeyValue<>(game.getId(), event);
                     });
 
             KStream<String, Game> games = processed.map((k, event) -> {
-                Game game = PayloadUtil.getGame(event.getPayload());
+                Game game = event.getGame();
                 return new KeyValue<>(game.getId(), game);
             });
 

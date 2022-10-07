@@ -1,7 +1,7 @@
 package by.bsuir.seabattle.service;
 
 import by.bsuir.seabattle.dto.Game;
-import by.bsuir.seabattle.dto.GameSearchFilter;
+import by.bsuir.seabattle.controller.dto.GameSearchFilter;
 
 import java.util.List;
 

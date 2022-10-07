@@ -4,14 +4,6 @@
   "namespace": "by.bsuir.seabattle.dto",
   "fields": [
     {
-      "name": "createdAt",
-      "type": "long"
-    },
-    {
-      "name": "id",
-      "type": "long"
-    },
-    {
       "name": "player",
       "type": "string"
     },

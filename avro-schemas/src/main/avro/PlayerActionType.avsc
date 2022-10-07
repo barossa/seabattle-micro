@@ -4,6 +4,7 @@
   "namespace": "by.bsuir.seabattle.event",
   "symbols": [
     "CREATE_GAME",
+    "FIND_GAMES",
     "JOIN_GAME",
     "LEFT_GAME"
   ]

@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.springframework.cloud.stream.binder.kafka.streams.InteractiveQueryService;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @AllArgsConstructor
 public class StoreServiceImpl implements StoreService {
     private final InteractiveQueryService queryService;

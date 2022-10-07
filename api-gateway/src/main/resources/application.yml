@@ -1,11 +1,38 @@
 spring:
-  application.name: api-gateway
+  application:
+    name: api-gateway
   kafka:
     consumer:
       group-id: api-gateway
     producer:
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       properties:
-        schema.registry.url: http://localhost:8081
         value.subject.name.strategy: io.confluent.kafka.serializers.subject.RecordNameStrategy
     bootstrap-servers: localhost:9092
+  cloud:
+    stream:
+      kafka:
+        streams:
+          binder:
+            brokers: localhost:9092
+            configuration:
+              default:
+                key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value.serde: io.confluent.kafka.streams.serdes.avro.GenericAvroSerde
+              specific.avro.reader: true
+              schema:
+                registry:
+                  url: http://localhost:8081
+              dynamicSchemaGenerationEnabled: false
+            functions:
+              processPlayerEvents.applicationId: player-events-processors
+      bindings:
+        processPlayerEvents-in-0:
+          destination: player-events
+      instance-count: 1
+      instance-index: 0
+
+    function:
+      definition: processPlayerEvents;
+logging.level:
+  by.bsuir.seabattle.*: INFO

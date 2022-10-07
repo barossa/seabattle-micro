@@ -1,0 +1,38 @@
+{
+  "type": "record",
+  "name": "PlayerEvent",
+  "namespace": "by.bsuir.seabattle.event",
+  "fields": [
+    {
+      "name": "type",
+      "type": "by.bsuir.seabattle.event.PlayerEventType"
+    },
+    {
+      "name": "games",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "by.bsuir.seabattle.dto.Game"
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "step",
+      "type": [
+        "null",
+        "by.bsuir.seabattle.dto.Step"
+      ],
+      "default": null
+    },
+    {
+      "name": "player",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    }
+  ]
+}
